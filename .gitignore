@@ -2,3 +2,4 @@ cpp/bin
 __pycache__
 pixels
 a.out
+images/*

@@ -73,40 +73,61 @@ Pixel* getPixelsFromImage(string filename, int rowCount)
 
 }
 
-
-void getNewOrder(Pixel* pixels, Pixel* pixels2, int rowCount)
+void quickSortBrig(Pixel *pixels, int low, int high)
 {
-    for(int i = 0; i < rowCount; ++i)
+    int i = low;
+    int j = high;
+    float pivot = pixels[(i + j) / 2].brig;
+    Pixel temp;
+
+    while (i <= j)
     {
-        float record = -1;
-        float record2 = -1;
-        int selectedPixel = i;
-        int selectedPixel2 = i;
-        for(int j = i; j < rowCount; ++j)
+        while (pixels[i].brig < pivot)
+            i++;
+        while (pixels[j].brig > pivot)
+            j--;
+        if (i <= j)
         {
-            float b = pixels[j].brig;
-            float b2 = pixels2[j].brig;
-            if(b > record)
-            {
-                record = b;
-                selectedPixel = j;
-            }
-            if(b2 > record2)
-            {
-                record2 = b2;
-                selectedPixel2 = j;
-            }
-
+            Pixel tmp = pixels[i];
+            pixels[i] = pixels[j];
+            pixels[j] = tmp;
+            i++;
+            j--;
         }
-        Pixel tmp = pixels[i];
-        pixels[i] = pixels[selectedPixel];
-        pixels[selectedPixel] = tmp;
-
-        Pixel tmp2 = pixels2[i];
-        pixels2[i] = pixels2[selectedPixel2];
-        pixels2[selectedPixel2] = tmp2;
-
     }
+    if (j > low)
+        quickSortBrig(pixels, low, j);
+    if (i < high)
+        quickSortBrig(pixels, i, high);
+}
+
+
+void quickSortPos(Pixel *pixels, int low, int high)
+{
+    int i = low;
+    int j = high;
+    int pivot = pixels[(i + j) / 2].pos;
+    Pixel temp;
+
+    while (i <= j)
+    {
+        while (pixels[i].pos < pivot)
+            i++;
+        while (pixels[j].pos > pivot)
+            j--;
+        if (i <= j)
+        {
+            Pixel tmp = pixels[i];
+            pixels[i] = pixels[j];
+            pixels[j] = tmp;
+            i++;
+            j--;
+        }
+    }
+    if (j > low)
+        quickSortPos(pixels, low, j);
+    if (i < high)
+        quickSortPos(pixels, i, high);
 }
 
 
@@ -114,30 +135,14 @@ void paintArray(Pixel* p1, Pixel* p2, int rowCount)
 {
     for(int i = 0; i < rowCount; ++i)
     {
+
         p2[i].rgb[0] = p1[i].rgb[0];
         p2[i].rgb[1] = p1[i].rgb[1];
         p2[i].rgb[2] = p1[i].rgb[2];
+
     }
+
 }
-
-
-void sortImageBack(Pixel* p, int rowCount)
-{
-    for(int i = 0; i < rowCount; i++)
-    {
-        for(int j = i; j < rowCount; j++)
-        {
-            if(p[j].pos == i)
-            {
-                Pixel tmp = p[i];
-                p[i] = p[j];
-                p[j] = tmp;
-                break;
-            }
-        }
-    }
-}
-
 
 int main()
 {
@@ -145,28 +150,66 @@ int main()
     string FILENAME = "./pixels/img1.txt";
     string FILENAME_2 = "./pixels/img2.txt";
     string FILENAME_RES = "./pixels/img_res.txt";
+    /*
+
+    string FILENAME = "./pixels/img1.txt";
+    string FILENAME_2 = "./pixels/img2.txt";
+    string FILENAME_RES = "./pixels/img_res.txt";
+
+
+    string FILENAME = "F:\\python\\imageBot\\pixels\\img1.txt";
+    string FILENAME_2 = "F:\\python\\imageBot\\pixels\\img2.txt";
+    string FILENAME_RES = "F:\\python\\imageBot\\pixels\\img_res.txt";
+
+    */
+
     fstream newfile;
     fstream resfile;
+
+    cout << "get row count" << endl;
+
     int rowCount = getRowCount(FILENAME);
 
+    cout << "get pixels" << endl;
 
     Pixel* pixels1 = getPixelsFromImage(FILENAME, rowCount);
+
+    cout << "get pixels" << endl;
+
     Pixel* pixels2 = getPixelsFromImage(FILENAME_2, rowCount);
-    getNewOrder(pixels1, pixels2, rowCount);
+
+    cout << "sort" << endl;
+
+    quickSortBrig(pixels1, 0, rowCount-1);
+    quickSortBrig(pixels2, 0, rowCount-1);
+
+    cout << "paint" << endl;
 
     paintArray(pixels1, pixels2, rowCount);
-    sortImageBack(pixels2, rowCount);
+
+    cout << "get result" << endl;
+
+    quickSortPos(pixels2, 0, rowCount -1);
 
     resfile.open(FILENAME_RES.c_str(),ios::out);
     if(resfile.is_open())
     {
-        for(int i = 0; i < rowCount; ++i)
+
+        for(int j = 0; j < rowCount; j++)
         {
-            Pixel p = pixels2[i];
-            resfile << p.rgb[0] << " " << p.rgb[1] << " " << p.rgb[2] << "\n";
+
+            resfile << pixels2[j].rgb[0] << " " << pixels2[j].rgb[1] << " " << pixels2[j].rgb[2] << "\n";
+
         }
+
+        cout << "done" << endl;
         resfile.close();
     }
+    else
+    {
+        cout << "no res file" << endl;
+    }
+
 
     return 0;
 }

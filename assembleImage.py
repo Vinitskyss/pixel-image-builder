@@ -2,6 +2,7 @@ from PIL import Image
 import numpy as np
 from numpy import asarray
 import const
+from datetime import datetime
 
 f = open("pixels/img_res.txt", "r")
 cfg = open("pixels/cfg.txt", "r")
@@ -21,4 +22,6 @@ for textLine in cfg:
 matrix = np.array([pixels[i:i + width] for i in range(0, len(pixels), width)])
 
 image2 = Image.fromarray(matrix.astype('uint8'), 'RGB')
+
+image2.save("images/res/"+ str(datetime.now())  +".png")
 image2.save("images/result.png")
