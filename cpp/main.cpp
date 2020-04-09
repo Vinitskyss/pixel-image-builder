@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <math.h>
-#include <windows.h>
 
 using namespace std;
 
@@ -143,9 +142,9 @@ void sortImageBack(Pixel* p, int rowCount)
 int main()
 {
 
-    string FILENAME = "..\\pixels\\img1.txt";
-    string FILENAME_2 = "..\\imageBot\\pixels\\img2.txt";
-    string FILENAME_RES = "..\\imageBot\\pixels\\img_res.txt";
+    string FILENAME = "./pixels/img1.txt";
+    string FILENAME_2 = "./pixels/img2.txt";
+    string FILENAME_RES = "./pixels/img_res.txt";
     fstream newfile;
     fstream resfile;
     int rowCount = getRowCount(FILENAME);

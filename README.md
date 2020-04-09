@@ -9,5 +9,8 @@ Usage:
 3. build and run c++ programm from cpp folder
 4. python assembleImage.py 
 
+OR run sh run.sh
+
 Max resolution of result image can be adjusted by editing
 const.py file
+
