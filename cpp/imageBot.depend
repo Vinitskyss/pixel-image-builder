@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1586415369 source:f:\cpp\imagebot\main.cpp
+	<iostream>
+	<fstream>
+	<math.h>
+	<windows.h>
+
