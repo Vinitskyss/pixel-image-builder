@@ -143,9 +143,9 @@ void sortImageBack(Pixel* p, int rowCount)
 int main()
 {
 
-    string FILENAME = "F:\\python\\imageBot\\pixels\\img1.txt";
-    string FILENAME_2 = "F:\\python\\imageBot\\pixels\\img2.txt";
-    string FILENAME_RES = "F:\\python\\imageBot\\pixels\\img_res.txt";
+    string FILENAME = "..\\pixels\\img1.txt";
+    string FILENAME_2 = "..\\imageBot\\pixels\\img2.txt";
+    string FILENAME_RES = "..\\imageBot\\pixels\\img_res.txt";
     fstream newfile;
     fstream resfile;
     int rowCount = getRowCount(FILENAME);
