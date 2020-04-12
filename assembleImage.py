@@ -1,3 +1,4 @@
+import os
 from PIL import Image
 import numpy as np
 from numpy import asarray
@@ -7,7 +8,9 @@ from datetime import datetime
 f = open("pixels/img_res.txt", "r")
 cfg = open("pixels/cfg.txt", "r")
 
-
+directory = "./images/res"
+if not os.path.exists(directory):
+    os.makedirs(directory)
 
 pixels = []
 

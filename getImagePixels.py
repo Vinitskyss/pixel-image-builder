@@ -1,3 +1,4 @@
+import os
 from PIL import Image
 import numpy as np
 from numpy import asarray
@@ -32,6 +33,9 @@ else:
 
 img1 = Image.open('images/img1.png').resize((int(w), int(h)))
 img2 = Image.open('images/img2.png').resize((int(w), int(h)))
+directory = "./pixels"
+if not os.path.exists(directory):
+    os.makedirs(directory)
 cfg = open("pixels/cfg.txt", "w")
 cfg.write(str(int(w)))
 
