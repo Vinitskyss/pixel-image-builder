@@ -1,5 +1,3 @@
 FILE=cpp/a.out
-python3 getImagePixels.py
- g++ ./cpp/main.cpp
-./a.out
-python3 assembleImage.py
+g++ ./cpp/main.cpp
+python3 getImagePixels.py | ./a.out | python3 assembleImage.py

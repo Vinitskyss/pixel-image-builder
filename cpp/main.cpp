@@ -11,66 +11,24 @@ struct Pixel
     float brig;
 };
 
-int getRowCount(string filename)
-{
-    fstream newfile;
-    string tp;
-    newfile.open(filename.c_str(),ios::in);
-    int rowCount = 0;
-    while(getline(newfile, tp))
-    {
-        rowCount++;
-    }
-
-    return rowCount;
-}
-
-Pixel strNumToInt(string num, int indexOrig)
-{
-    Pixel result;
-    result.pos = indexOrig;
-    int sum = 0;
-    int m = 1;
-    int index = 2;
-    for(int i = num.length() - 1; i >= 0; i--)
-    {
-        if(int(num[i]) != 32)
-        {
-            sum += (int(num[i]) - 48) * m;
-            m *= 10;
-        }
-
-        if(int(num[i]) == 32 || i == 0)
-        {
-            result.rgb[index] = sum;
-            sum = 0;
-            m = 1;
-            index--;
-        }
-    }
-
-    result.brig = (result.rgb[0] * 0.3) + (result.rgb[1] * 0.59) + (result.rgb[2] * 0.11);;
-
-    return result;
-}
-
-Pixel* getPixelsFromImage(string filename, int rowCount)
+Pixel* getPixelsFromImage(int rowCount)
 {
 
-    fstream newfile;
-    string tp;
-    newfile.open(filename.c_str(),ios::in);
     Pixel* pixels = new Pixel[rowCount];
-    int index = 0;
 
-    while(getline(newfile, tp))
+
+    for(int i = 0; i < rowCount; i++)
     {
-        pixels[index] = strNumToInt(tp, index);
-        index++;
+        Pixel pixel;
+        for(int j = 0; j < 3; j++)
+        {
+            cin >> pixel.rgb[j];
+        }
+        pixel.pos = i;
+        pixel.brig = (pixel.rgb[0] * 0.3) + (pixel.rgb[1] * 0.59) + (pixel.rgb[2] * 0.11);
+        pixels[i] = pixel;
     }
-    newfile.close();
     return pixels;
-
 }
 
 void quickSortBrig(Pixel *pixels, int low, int high)
@@ -147,69 +105,39 @@ void paintArray(Pixel* p1, Pixel* p2, int rowCount)
 int main()
 {
 
-    string FILENAME = "./pixels/img1.txt";
-    string FILENAME_2 = "./pixels/img2.txt";
-    string FILENAME_RES = "./pixels/img_res.txt";
-    /*
-
-    string FILENAME = "./pixels/img1.txt";
-    string FILENAME_2 = "./pixels/img2.txt";
-    string FILENAME_RES = "./pixels/img_res.txt";
-
-
-    string FILENAME = "F:\\python\\imageBot\\pixels\\img1.txt";
-    string FILENAME_2 = "F:\\python\\imageBot\\pixels\\img2.txt";
-    string FILENAME_RES = "F:\\python\\imageBot\\pixels\\img_res.txt";
-
-    */
-
     fstream newfile;
     fstream resfile;
 
-    cout << "get row count" << endl;
 
-    int rowCount = getRowCount(FILENAME);
+    int rowCount, width;
 
-    cout << "get pixels" << endl;
+    cin >> rowCount;
+    cin >> width;
 
-    Pixel* pixels1 = getPixelsFromImage(FILENAME, rowCount);
+    Pixel* pixels1 = getPixelsFromImage(rowCount);
 
-    cout << "get pixels" << endl;
 
-    Pixel* pixels2 = getPixelsFromImage(FILENAME_2, rowCount);
+    Pixel* pixels2 = getPixelsFromImage(rowCount);
 
-    cout << "sort" << endl;
 
     quickSortBrig(pixels1, 0, rowCount-1);
     quickSortBrig(pixels2, 0, rowCount-1);
 
-    cout << "paint" << endl;
 
     paintArray(pixels1, pixels2, rowCount);
 
-    cout << "get result" << endl;
 
     quickSortPos(pixels2, 0, rowCount -1);
 
-    resfile.open(FILENAME_RES.c_str(),ios::out);
-    if(resfile.is_open())
+    cout << rowCount << endl;
+    cout << width << endl;
+    for(int i = 0; i < rowCount; i++)
     {
-
-        for(int j = 0; j < rowCount; j++)
+        for(int j = 0; j < 3; j++)
         {
-
-            resfile << pixels2[j].rgb[0] << " " << pixels2[j].rgb[1] << " " << pixels2[j].rgb[2] << "\n";
-
+            cout << pixels2[i].rgb[j] << endl;
         }
-
-        cout << "done" << endl;
-        resfile.close();
-    }
-    else
-    {
-        cout << "no res file" << endl;
     }
 
-
-    return 0;
+return 0;
 }

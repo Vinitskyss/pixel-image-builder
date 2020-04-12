@@ -4,13 +4,11 @@ import numpy as np
 from numpy import asarray
 import const
 
-def saveImaeToTxt(name, data):
-    f = open("pixels/" + name + ".txt", "w")
+def printPixels(data):
     for l1 in data:
         for p in l1:
-            f.write(str(p[0]) + " " + str(p[1]) + " " + str(p[2]) + "\n") 
-
-    f.close()
+            for j in range(0, 3):
+                print(p[j])
 
 img1 = Image.open('images/img1.png')
 img2 = Image.open('images/img2.png')
@@ -33,16 +31,10 @@ else:
 
 img1 = Image.open('images/img1.png').resize((int(w), int(h)))
 img2 = Image.open('images/img2.png').resize((int(w), int(h)))
-directory = "./pixels"
-if not os.path.exists(directory):
-    os.makedirs(directory)
-cfg = open("pixels/cfg.txt", "w")
-cfg.write(str(int(w)))
 
-print(img1.size)
+print(int(w * h))
+print(int(w))
 data1 = np.array(img1)
 data2 = np.array(img2)
-
-
-saveImaeToTxt("img1", data1)
-saveImaeToTxt("img2", data2)
+printPixels(data1)
+printPixels(data2)
