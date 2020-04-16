@@ -3,3 +3,4 @@ __pycache__
 pixels
 a.out
 images/*
+nohup.out
