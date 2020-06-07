@@ -13,3 +13,4 @@ Usage:
 
 Max resolution of result image can be adjusted by editing
 const.py file
+- [x] Login
